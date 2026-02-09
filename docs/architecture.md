@@ -17,7 +17,8 @@ The MVP is split into two primary applications:
 ## Backend Responsibilities
 - **Fetch HTML:**
   - Use `node-fetch` for simple pages.
-  - Use `Puppeteer` for dynamic content or blocked HTML fetches.
+  - Use `puppeteer-core` for dynamic content or blocked HTML fetches.
+  - Requires `PUPPETEER_EXECUTABLE_PATH` for the Chromium/Chrome binary.
 - **Sanitize HTML:**
   - Remove scripts, trackers, and inline analytics.
   - Preserve layout and CSS references.
