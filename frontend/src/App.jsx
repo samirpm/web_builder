@@ -26,7 +26,7 @@ export default function App() {
   const [loading, setLoading] = useState(false);
 
   const previewSrcDoc = useMemo(() => {
-    return `<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /><style>${importedCss}</style></head><body style=\"margin:0;font-family:Inter,system-ui,sans-serif;background:#0b1120;color:#f8fafc;\">${importedHtml}</body></html>`;
+    return `<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><style>${importedCss}</style></head><body style="margin:0;font-family:Inter,system-ui,sans-serif;background:#0b1120;color:#f8fafc;">${importedHtml}</body></html>`;
   }, [importedCss, importedHtml]);
 
   const handleImport = async () => {
