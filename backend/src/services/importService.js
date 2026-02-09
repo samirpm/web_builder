@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 import { load } from "cheerio";
-import { sanitizeDom } from "../utils/sanitize.js";
+import { stripScripts } from "../utils/sanitize.js";
 import { replaceContentWithPlaceholders } from "../utils/placeholders.js";
 
 async function fetchHtmlWithPuppeteer(url) {
@@ -24,26 +24,19 @@ export async function fetchAndCleanHtml(url) {
 
   try {
     const response = await fetch(url);
-    if (!response.ok) {
-      throw new Error(`Fetch failed with status ${response.status}`);
-    }
     html = await response.text();
   } catch (error) {
+    // fallback for JS-heavy sites
     html = await fetchHtmlWithPuppeteer(url);
   }
 
   const $ = load(html);
-  const css = $("style")
-    .map((_, styleTag) => $(styleTag).html() || "")
-    .get()
-    .join("\n");
 
-  $("style").remove();
-  sanitizeDom($);
+  stripScripts($);
   replaceContentWithPlaceholders($);
 
   return {
-    html: $("body").html() || $.root().html() || "",
-    css
+    html: $.html(),
+    css: ""
   };
 }

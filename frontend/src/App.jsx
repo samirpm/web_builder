@@ -24,10 +24,9 @@ export default function App() {
   const [importedCss, setImportedCss] = useState("");
   const [status, setStatus] = useState("Ready to import a site.");
   const [loading, setLoading] = useState(false);
-  const [zoom, setZoom] = useState(1);
 
   const previewSrcDoc = useMemo(() => {
-    return `<!doctype html><html lang=\"en\"><head><meta charset=\"UTF-8\" /><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\" /><style>${importedCss}</style></head><body contenteditable=\"true\" style=\"margin:0;font-family:Inter,system-ui,sans-serif;background:#ffffff;color:#0f172a;\">${importedHtml}</body></html>`;
+    return `<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><style>${importedCss}</style></head><body style="margin:0;font-family:Inter,system-ui,sans-serif;background:#0b1120;color:#f8fafc;">${importedHtml}</body></html>`;
   }, [importedCss, importedHtml]);
 
   const handleImport = async () => {
@@ -94,7 +93,7 @@ export default function App() {
   };
 
   return (
-    <div className="flex h-screen flex-col bg-slate-950 text-slate-100">
+    <div className="min-h-screen bg-slate-950 text-slate-100">
       <header className="flex flex-col gap-4 border-b border-slate-800 px-6 py-4 md:flex-row md:items-center md:justify-between">
         <div className="flex items-center gap-3">
           <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-500/20 font-semibold text-indigo-200">
@@ -123,68 +122,38 @@ export default function App() {
               Import URL
             </button>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="flex items-center gap-1 rounded-lg border border-slate-800 bg-slate-900/60 px-2 py-1 text-xs text-slate-300">
-              <button
-                onClick={() => setZoom(0.75)}
-                className={`rounded px-2 py-1 ${zoom === 0.75 ? "bg-slate-800 text-white" : "text-slate-300"}`}
-              >
-                75%
-              </button>
-              <button
-                onClick={() => setZoom(1)}
-                className={`rounded px-2 py-1 ${zoom === 1 ? "bg-slate-800 text-white" : "text-slate-300"}`}
-              >
-                100%
-              </button>
-              <button
-                onClick={() => setZoom(1.25)}
-                className={`rounded px-2 py-1 ${zoom === 1.25 ? "bg-slate-800 text-white" : "text-slate-300"}`}
-              >
-                125%
-              </button>
-              <button
-                onClick={() => setZoom(0.9)}
-                className="rounded px-2 py-1 text-slate-300"
-              >
-                Fit
-              </button>
-            </div>
-            <button
-              onClick={handleExport}
-              disabled={loading}
-              className="rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              Export HTML
-            </button>
-          </div>
+          <button
+            onClick={handleExport}
+            disabled={loading}
+            className="rounded-lg bg-indigo-500 px-4 py-2 text-sm font-semibold text-white transition hover:bg-indigo-400 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            Export HTML
+          </button>
         </div>
       </header>
 
-      <div className="flex flex-1 overflow-hidden">
-        <aside className="flex w-64 flex-col border-r border-slate-800 bg-panel">
-          <div className="flex-1 overflow-y-auto p-5">
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Blocks</p>
-            <div className="mt-4 space-y-3">
-              {sidebarItems.map((item) => (
-                <button
-                  key={item}
-                  className="flex w-full items-center justify-between rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm text-slate-200 transition hover:border-indigo-400"
-                >
-                  <span>{item}</span>
-                  <span className="text-xs text-slate-500">Drag</span>
-                </button>
-              ))}
-            </div>
-            <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-xs text-slate-400">
-              <p className="font-semibold text-slate-200">Status</p>
-              <p className="mt-2 leading-relaxed">{status}</p>
-            </div>
+      <div className="grid grid-cols-[260px_1fr_280px] gap-0">
+        <aside className="min-h-[calc(100vh-81px)] border-r border-slate-800 bg-panel p-5">
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Blocks</p>
+          <div className="mt-4 space-y-3">
+            {sidebarItems.map((item) => (
+              <button
+                key={item}
+                className="flex w-full items-center justify-between rounded-xl border border-slate-800 bg-slate-900/60 px-4 py-3 text-sm text-slate-200 transition hover:border-indigo-400"
+              >
+                <span>{item}</span>
+                <span className="text-xs text-slate-500">Drag</span>
+              </button>
+            ))}
+          </div>
+          <div className="mt-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-xs text-slate-400">
+            <p className="font-semibold text-slate-200">Status</p>
+            <p className="mt-2 leading-relaxed">{status}</p>
           </div>
         </aside>
 
-        <main className="flex-1 overflow-y-auto bg-slate-900/40">
-          <div className="mx-auto flex max-w-6xl flex-col gap-6 px-8 py-8">
+        <main className="min-h-[calc(100vh-81px)] bg-slate-900/40 p-6">
+          <div className="rounded-3xl border border-dashed border-slate-700 bg-slate-950/80 p-10">
             <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
               <div>
                 <h2 className="text-xl font-semibold">Canvas Preview</h2>
@@ -199,55 +168,72 @@ export default function App() {
               </div>
             </div>
 
-            <div className="rounded-3xl border border-slate-800 bg-slate-950/80 p-6 shadow-xl">
-              <div
-                className="mx-auto origin-top rounded-2xl border border-slate-800 bg-white shadow-2xl"
-                style={{ transform: `scale(${zoom})` }}
-              >
-                <iframe
-                  title="preview"
-                  className="h-[720px] w-full rounded-2xl"
-                  srcDoc={previewSrcDoc}
-                />
+            <div className="mt-8 grid gap-6 md:grid-cols-2">
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-500">
+                  Imported Layout
+                </p>
+                <div className="mt-4 overflow-hidden rounded-xl border border-slate-800 bg-slate-950">
+                  <iframe
+                    title="preview"
+                    className="h-[320px] w-full"
+                    srcDoc={previewSrcDoc}
+                  />
+                </div>
+              </div>
+              <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
+                <p className="text-xs uppercase tracking-[0.3em] text-slate-500">
+                  Style Inspector
+                </p>
+                <div className="mt-4 space-y-3">
+                  <div>
+                    <p className="text-sm font-medium">Typography</p>
+                    <p className="text-xs text-slate-400">
+                      Font, size, and color controls.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Layout</p>
+                    <p className="text-xs text-slate-400">
+                      Spacing, alignment, and grid tools.
+                    </p>
+                  </div>
+                  <div>
+                    <p className="text-sm font-medium">Animations</p>
+                    <p className="text-xs text-slate-400">
+                      Fade, slide, and hover presets.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </main>
 
-        <aside className="flex w-72 flex-col border-l border-slate-800 bg-panel">
-          <div className="flex-1 overflow-y-auto p-6">
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Styles</p>
-            <div className="mt-6 space-y-5">
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
-                <p className="text-sm font-semibold">Selected Element</p>
-                <p className="text-xs text-slate-400">Hero Title</p>
-                <div className="mt-4 space-y-2 text-xs text-slate-400">
-                  <p>Font: Inter 42px</p>
-                  <p>Color: #0F172A</p>
-                  <p>Spacing: 24px</p>
-                </div>
+        <aside className="min-h-[calc(100vh-81px)] border-l border-slate-800 bg-panel p-6">
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Styles</p>
+          <div className="mt-6 space-y-5">
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
+              <p className="text-sm font-semibold">Selected Element</p>
+              <p className="text-xs text-slate-400">Hero Title</p>
+              <div className="mt-4 space-y-2 text-xs text-slate-400">
+                <p>Font: Inter 42px</p>
+                <p>Color: #F8FAFC</p>
+                <p>Spacing: 24px</p>
               </div>
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
-                <p className="text-sm font-semibold">Animations</p>
-                <div className="mt-3 flex flex-wrap gap-2">
-                  <span className="rounded-full border border-slate-700 px-3 py-1 text-xs">
-                    Fade In
-                  </span>
-                  <span className="rounded-full border border-slate-700 px-3 py-1 text-xs">
-                    Slide Up
-                  </span>
-                  <span className="rounded-full border border-slate-700 px-3 py-1 text-xs">
-                    Hover Glow
-                  </span>
-                </div>
-              </div>
-              <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
-                <p className="text-sm font-semibold">Layout</p>
-                <div className="mt-3 space-y-2 text-xs text-slate-400">
-                  <p>Display: Flex</p>
-                  <p>Padding: 48px</p>
-                  <p>Radius: 24px</p>
-                </div>
+            </div>
+            <div className="rounded-2xl border border-slate-800 bg-slate-900/60 p-4">
+              <p className="text-sm font-semibold">Animations</p>
+              <div className="mt-3 flex flex-wrap gap-2">
+                <span className="rounded-full border border-slate-700 px-3 py-1 text-xs">
+                  Fade In
+                </span>
+                <span className="rounded-full border border-slate-700 px-3 py-1 text-xs">
+                  Slide Up
+                </span>
+                <span className="rounded-full border border-slate-700 px-3 py-1 text-xs">
+                  Hover Glow
+                </span>
               </div>
             </div>
           </div>

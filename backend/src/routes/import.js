@@ -11,12 +11,6 @@ router.post("/", async (req, res) => {
   }
 
   try {
-    new URL(url);
-  } catch (error) {
-    return res.status(400).json({ error: "Invalid url" });
-  }
-
-  try {
     const payload = await fetchAndCleanHtml(url);
     return res.json(payload);
   } catch (error) {
