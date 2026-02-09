@@ -7,8 +7,9 @@ This repository contains the MVP for a visual static website builder inspired by
 - **Backend:** Node.js (Express), Cheerio, Puppeteer Core
 
 ## Repo Structure
-
-
+/backend      # Node.js API  
+/frontend     # React + Tailwind UI  
+/docs         # Architecture and docs  
 
 ## Development (Planned)
 - Backend API for import/export pipelines.
